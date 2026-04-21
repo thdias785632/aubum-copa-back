@@ -13,17 +13,18 @@ dotenv.config();
  * Estrutura:
  *   - 12 Grupos (A-L), cada um com 4 selecoes x 20 figurinhas = 960 (grupo)
  *   - Serie Especial:
- *       - FIFA World Cup History: FWC0..FWC17 (18 figurinhas)
+ *       - FIFA World Cup History: FWC00..FWC19 (20 figurinhas, padding 2)
  *       - Coca-Cola: CC1..CC14 (14 figurinhas)
- *   Total: 992 figurinhas
+ *   Total: 994 figurinhas
  *
  * Codigos seguem o padrao oficial: {ABREV}{N}
- *   ex: MEX1..MEX20, BRA1..BRA20, FWC0..FWC17, CC1..CC14
+ *   ex: MEX1..MEX20, BRA1..BRA20, FWC00..FWC19, CC1..CC14
  */
 
 const STICKERS_PER_TEAM = 20;
 const FWC_START = 0;
-const FWC_END = 17;
+const FWC_END = 19;
+const FWC_PAD = 2;
 const CC_START = 1;
 const CC_END = 14;
 
@@ -183,14 +184,15 @@ function buildAllStickers(): StickerDto[] {
     });
   });
 
-  // Serie Especial - FIFA World Cup History
+  // Serie Especial - FIFA World Cup History (FWC00..FWC19, padding 2)
   for (let n = FWC_START; n <= FWC_END; n++) {
+    const suffix = String(n).padStart(FWC_PAD, '0');
     all.push({
       id: randomUUID(),
-      code: `FWC${n}`,
+      code: `FWC${suffix}`,
       section: FWC_SECTION,
       team: null,
-      playerName: `FIFA World Cup History #${n}`,
+      playerName: `FIFA World Cup History #${suffix}`,
       position: 0,
       isSpecial: true,
     });
