@@ -57,13 +57,17 @@ nao existir - mesma do finanzze) e as tabelas proprias do AUbum:
 
 ## Seed de figurinhas
 
-Depois das tabelas criadas, popule o catalogo de 670 figurinhas rodando:
+Depois das tabelas criadas, popule o catalogo oficial de 983 figurinhas (12
+Grupos A-L com 4 selecoes x 20 cada = 960, mais Serie Especial FWC9-FWC17 e
+CC1-CC14 = 23) rodando:
 
 ```
 npm run seed
 ```
 
-A logica do seed e idempotente: se ja existirem figurinhas, ele nao duplica.
+A logica do seed e idempotente: se ja existirem exatamente 983 figurinhas nao
+faz nada. Se existirem mas em quantidade diferente (catalogo antigo), limpa e
+repopula - o que tambem zera `aubum_user_stickers` via `ON DELETE CASCADE`.
 
 ## Rodando
 

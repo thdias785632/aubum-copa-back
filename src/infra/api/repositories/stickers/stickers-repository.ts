@@ -86,6 +86,23 @@ export class StickersRepository implements StickersRepositoryInterface {
     await client.end();
   }
 
+  async deleteAll(): Promise<void> {
+    const client = this.database.connect();
+    await client.connect();
+
+    try {
+      await client.query('BEGIN');
+      // aubum_user_stickers has ON DELETE CASCADE, so user progress is cleared.
+      await client.query('DELETE FROM aubum_stickers');
+      await client.query('COMMIT');
+    } catch (err) {
+      await client.query('ROLLBACK');
+      throw err;
+    } finally {
+      await client.end();
+    }
+  }
+
   async bulkCreate(stickers: StickerDto[]): Promise<void> {
     if (stickers.length === 0) return;
 

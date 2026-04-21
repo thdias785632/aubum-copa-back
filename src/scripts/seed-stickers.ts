@@ -8,178 +8,236 @@ import { StickerDto } from '../domain/stickers/dto/sticker.dto';
 dotenv.config();
 
 /**
- * Seed do album da Copa do Mundo 2026 (AUbum da Copa).
- * Estrutura (aproximada, baseada nos albuns Panini recentes escalado p/ 48 selecoes):
- *   - 20 figurinhas de introducao (troféu, mascote, cidades-sede...)
- *   - 48 selecoes × 13 figurinhas (escudo + 11 jogadores + especial) = 624
- *   - 26 lendas / especiais finais
- *   Total: 670 figurinhas
+ * Seed do AUbum da Copa 2026 - catalogo oficial.
+ *
+ * Estrutura:
+ *   - 12 Grupos (A-L), cada um com 4 selecoes x 20 figurinhas = 960 (grupo)
+ *   - Serie Especial:
+ *       - FIFA World Cup History: FWC9..FWC17 (9 figurinhas)
+ *       - Coca-Cola: CC1..CC14 (14 figurinhas)
+ *   Total: 983 figurinhas
+ *
+ * Codigos seguem o padrao oficial: {ABREV}{N}
+ *   ex: MEX1..MEX20, BRA1..BRA20, FWC9..FWC17, CC1..CC14
  */
 
-const INTRO_TITLES = [
-  'Logo FIFA World Cup 26',
-  'Trofeu da Copa',
-  'Maylynn, Clutch e Zayu - Mascotes',
-  'Mapa da Copa 2026',
-  'Bola oficial',
-  'Host City: Mexico City',
-  'Host City: Guadalajara',
-  'Host City: Monterrey',
-  'Host City: Toronto',
-  'Host City: Vancouver',
-  'Host City: Atlanta',
-  'Host City: Boston',
-  'Host City: Dallas',
-  'Host City: Houston',
-  'Host City: Kansas City',
-  'Host City: Los Angeles',
-  'Host City: Miami',
-  'Host City: New York/New Jersey',
-  'Host City: Philadelphia',
-  'Host City: Seattle',
+const STICKERS_PER_TEAM = 20;
+const FWC_START = 9;
+const FWC_END = 17;
+const CC_START = 1;
+const CC_END = 14;
+
+interface TeamEntry {
+  code: string;
+  name: string;
+}
+
+interface GroupEntry {
+  letter: string;
+  teams: TeamEntry[];
+}
+
+const GROUPS: GroupEntry[] = [
+  {
+    letter: 'A',
+    teams: [
+      { code: 'MEX', name: 'Mexico' },
+      { code: 'RSA', name: 'Africa do Sul' },
+      { code: 'KOR', name: 'Coreia do Sul' },
+      { code: 'CZE', name: 'Republica Tcheca' },
+    ],
+  },
+  {
+    letter: 'B',
+    teams: [
+      { code: 'CAN', name: 'Canada' },
+      { code: 'BIH', name: 'Bosnia e Herzegovina' },
+      { code: 'QAT', name: 'Catar' },
+      { code: 'SUI', name: 'Suica' },
+    ],
+  },
+  {
+    letter: 'C',
+    teams: [
+      { code: 'BRA', name: 'Brasil' },
+      { code: 'MAR', name: 'Marrocos' },
+      { code: 'HAI', name: 'Haiti' },
+      { code: 'SCO', name: 'Escocia' },
+    ],
+  },
+  {
+    letter: 'D',
+    teams: [
+      { code: 'USA', name: 'Estados Unidos' },
+      { code: 'PAR', name: 'Paraguai' },
+      { code: 'AUS', name: 'Australia' },
+      { code: 'TUR', name: 'Turquia' },
+    ],
+  },
+  {
+    letter: 'E',
+    teams: [
+      { code: 'GER', name: 'Alemanha' },
+      { code: 'CUW', name: 'Curacao' },
+      { code: 'CIV', name: 'Costa do Marfim' },
+      { code: 'ECU', name: 'Equador' },
+    ],
+  },
+  {
+    letter: 'F',
+    teams: [
+      { code: 'NED', name: 'Holanda' },
+      { code: 'JPN', name: 'Japao' },
+      { code: 'SWE', name: 'Suecia' },
+      { code: 'TUN', name: 'Tunisia' },
+    ],
+  },
+  {
+    letter: 'G',
+    teams: [
+      { code: 'BEL', name: 'Belgica' },
+      { code: 'EGY', name: 'Egito' },
+      { code: 'IRN', name: 'Ira' },
+      { code: 'NZL', name: 'Nova Zelandia' },
+    ],
+  },
+  {
+    letter: 'H',
+    teams: [
+      { code: 'ESP', name: 'Espanha' },
+      { code: 'CPV', name: 'Cabo Verde' },
+      { code: 'KSA', name: 'Arabia Saudita' },
+      { code: 'URU', name: 'Uruguai' },
+    ],
+  },
+  {
+    letter: 'I',
+    teams: [
+      { code: 'FRA', name: 'Franca' },
+      { code: 'SEN', name: 'Senegal' },
+      { code: 'IRQ', name: 'Iraque' },
+      { code: 'NOR', name: 'Noruega' },
+    ],
+  },
+  {
+    letter: 'J',
+    teams: [
+      { code: 'ARG', name: 'Argentina' },
+      { code: 'ALG', name: 'Argelia' },
+      { code: 'AUT', name: 'Austria' },
+      { code: 'JOR', name: 'Jordania' },
+    ],
+  },
+  {
+    letter: 'K',
+    teams: [
+      { code: 'POR', name: 'Portugal' },
+      { code: 'COD', name: 'Congo' },
+      { code: 'UZB', name: 'Uzbequistao' },
+      { code: 'COL', name: 'Colombia' },
+    ],
+  },
+  {
+    letter: 'L',
+    teams: [
+      { code: 'ENG', name: 'Inglaterra' },
+      { code: 'CRO', name: 'Croacia' },
+      { code: 'GHA', name: 'Gana' },
+      { code: 'PAN', name: 'Panama' },
+    ],
+  },
 ];
 
-const TEAMS = [
-  'Brasil',
-  'Argentina',
-  'Canada',
-  'Mexico',
-  'Estados Unidos',
-  'Uruguai',
-  'Colombia',
-  'Equador',
-  'Paraguai',
-  'Franca',
-  'Inglaterra',
-  'Alemanha',
-  'Espanha',
-  'Portugal',
-  'Italia',
-  'Belgica',
-  'Holanda',
-  'Croacia',
-  'Suica',
-  'Dinamarca',
-  'Austria',
-  'Polonia',
-  'Servia',
-  'Noruega',
-  'Escocia',
-  'Turquia',
-  'Japao',
-  'Coreia do Sul',
-  'Australia',
-  'Ira',
-  'Arabia Saudita',
-  'Catar',
-  'Iraque',
-  'Uzbequistao',
-  'Senegal',
-  'Marrocos',
-  'Tunisia',
-  'Argelia',
-  'Egito',
-  'Nigeria',
-  'Gana',
-  'Camaroes',
-  'Costa do Marfim',
-  'Africa do Sul',
-  'Costa Rica',
-  'Panama',
-  'Jamaica',
-  'Nova Zelandia',
-];
+const FWC_SECTION = 'Serie Especial - FIFA World Cup History';
+const CC_SECTION = 'Serie Especial - Coca-Cola';
 
-const TEAM_STICKERS_PER_TEAM = 13;
-const LEGENDS_COUNT = 26;
-
-function buildSection(teamIndex: number, team: string): StickerDto[] {
-  const section = `Secao ${teamIndex + 1}: ${team}`;
+function buildTeamStickers(groupLetter: string, team: TeamEntry): StickerDto[] {
+  const section = `Grupo ${groupLetter}`;
   const stickers: StickerDto[] = [];
 
-  // posicao global: base + offset; a posicao absoluta e ajustada no final.
-  for (let i = 0; i < TEAM_STICKERS_PER_TEAM; i++) {
-    let playerName: string | null = null;
-    let isSpecial = false;
-    if (i === 0) {
-      playerName = 'Escudo da Selecao';
-      isSpecial = true;
-    } else if (i === TEAM_STICKERS_PER_TEAM - 1) {
-      playerName = 'Craque da Selecao';
-      isSpecial = true;
-    } else {
-      playerName = `Jogador ${i}`;
-    }
+  for (let i = 1; i <= STICKERS_PER_TEAM; i++) {
+    const isEscudo = i === 1;
+    const playerName = isEscudo ? 'Escudo da Selecao' : `Figurinha ${i}`;
 
     stickers.push({
       id: randomUUID(),
-      code: '',
+      code: `${team.code}${i}`,
       section,
-      team,
+      team: team.name,
       playerName,
       position: 0,
-      isSpecial,
+      isSpecial: isEscudo,
     });
   }
 
   return stickers;
 }
 
+function buildAllStickers(): StickerDto[] {
+  const all: StickerDto[] = [];
+
+  // Grupos A-L
+  GROUPS.forEach((group) => {
+    group.teams.forEach((team) => {
+      all.push(...buildTeamStickers(group.letter, team));
+    });
+  });
+
+  // Serie Especial - FIFA World Cup History
+  for (let n = FWC_START; n <= FWC_END; n++) {
+    all.push({
+      id: randomUUID(),
+      code: `FWC${n}`,
+      section: FWC_SECTION,
+      team: null,
+      playerName: `FIFA World Cup History #${n}`,
+      position: 0,
+      isSpecial: true,
+    });
+  }
+
+  // Serie Especial - Coca-Cola
+  for (let n = CC_START; n <= CC_END; n++) {
+    all.push({
+      id: randomUUID(),
+      code: `CC${n}`,
+      section: CC_SECTION,
+      team: null,
+      playerName: `Coca-Cola #${n}`,
+      position: 0,
+      isSpecial: true,
+    });
+  }
+
+  // Atribui position sequencial global respeitando a ordem do catalogo.
+  all.forEach((sticker, idx) => {
+    sticker.position = idx + 1;
+  });
+
+  return all;
+}
+
 async function run(): Promise<void> {
   const repo = new StickersRepository();
+  const expected = buildAllStickers();
   const existing = await repo.count();
 
-  if (existing > 0) {
+  if (existing === expected.length) {
     console.log(
-      `Stickers table ja possui ${existing} registros. Pulando seed. Delete os registros para reseedar.`,
+      `Catalogo ja populado com ${existing} figurinhas. Nada a fazer.`,
     );
     return;
   }
 
-  const all: StickerDto[] = [];
-
-  // Intro
-  INTRO_TITLES.forEach((title) => {
-    all.push({
-      id: randomUUID(),
-      code: '',
-      section: 'Intro',
-      team: null,
-      playerName: title,
-      position: 0,
-      isSpecial: true,
-    });
-  });
-
-  // Selecoes
-  TEAMS.forEach((team, teamIdx) => {
-    const stickers = buildSection(teamIdx, team);
-    all.push(...stickers);
-  });
-
-  // Lendas / Especiais
-  for (let i = 0; i < LEGENDS_COUNT; i++) {
-    all.push({
-      id: randomUUID(),
-      code: '',
-      section: 'Lendas da Copa',
-      team: null,
-      playerName: `Lenda ${i + 1}`,
-      position: 0,
-      isSpecial: true,
-    });
+  if (existing > 0) {
+    console.log(
+      `Catalogo existente (${existing}) diferente do esperado (${expected.length}). Reseedando.`,
+    );
+    await repo.deleteAll();
   }
 
-  // posiciona globalmente + gera code sequencial
-  all.forEach((sticker, idx) => {
-    const position = idx + 1;
-    const code = String(position).padStart(4, '0');
-    sticker.position = position;
-    sticker.code = code;
-  });
-
-  console.log(`Inserindo ${all.length} figurinhas...`);
-  await repo.bulkCreate(all);
+  console.log(`Inserindo ${expected.length} figurinhas...`);
+  await repo.bulkCreate(expected);
   console.log('Seed concluido com sucesso.');
 }
 

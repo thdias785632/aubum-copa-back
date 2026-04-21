@@ -7,4 +7,5 @@ export interface StickersRepositoryInterface {
   count(): Promise<number>;
   create(sticker: StickerDto): Promise<void>;
   bulkCreate(stickers: StickerDto[]): Promise<void>;
+  deleteAll(): Promise<void>;
 }
