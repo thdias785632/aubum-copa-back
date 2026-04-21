@@ -13,16 +13,16 @@ dotenv.config();
  * Estrutura:
  *   - 12 Grupos (A-L), cada um com 4 selecoes x 20 figurinhas = 960 (grupo)
  *   - Serie Especial:
- *       - FIFA World Cup History: FWC9..FWC17 (9 figurinhas)
+ *       - FIFA World Cup History: FWC0..FWC17 (18 figurinhas)
  *       - Coca-Cola: CC1..CC14 (14 figurinhas)
- *   Total: 983 figurinhas
+ *   Total: 992 figurinhas
  *
  * Codigos seguem o padrao oficial: {ABREV}{N}
- *   ex: MEX1..MEX20, BRA1..BRA20, FWC9..FWC17, CC1..CC14
+ *   ex: MEX1..MEX20, BRA1..BRA20, FWC0..FWC17, CC1..CC14
  */
 
 const STICKERS_PER_TEAM = 20;
-const FWC_START = 9;
+const FWC_START = 0;
 const FWC_END = 17;
 const CC_START = 1;
 const CC_END = 14;
