@@ -84,4 +84,35 @@ export default class UserStickersController implements UserStickersControllerInt
       });
     }
   }
+
+  async getTrocaUsers(
+    _req: Request,
+    res: Response,
+  ): Promise<Response | undefined> {
+    try {
+      const users = await this.useCase.getTrocaUsers();
+      return res.status(200).json(users);
+    } catch (error: any) {
+      return res.status(error.status ? error.status : 500).json({
+        message: error.message ? error.message : 'Internal Server Error',
+      });
+    }
+  }
+
+  async getTrocaRepetidas(
+    req: Request,
+    res: Response,
+  ): Promise<Response | undefined> {
+    try {
+      const userId = String(req.params.userId || '');
+      if (!userId)
+        return res.status(400).json({ message: 'userId is required' });
+      const repetidas = await this.useCase.getTrocaRepetidas(userId);
+      return res.status(200).json(repetidas);
+    } catch (error: any) {
+      return res.status(error.status ? error.status : 500).json({
+        message: error.message ? error.message : 'Internal Server Error',
+      });
+    }
+  }
 }

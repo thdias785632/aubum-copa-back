@@ -43,3 +43,9 @@ export interface AlbumSummaryDto {
   progressPercent: number;
   sections: AlbumSectionDto[];
 }
+
+export interface TrocaUserDto {
+  userId: string;
+  userName: string;
+  repetidasCount: number;
+}

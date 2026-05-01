@@ -6,4 +6,6 @@ export default interface UserStickersControllerInterface {
   decrement(req: Request, res: Response): Promise<Response | undefined>;
   getRepetidas(req: Request, res: Response): Promise<Response | undefined>;
   reset(req: Request, res: Response): Promise<Response | undefined>;
+  getTrocaUsers(req: Request, res: Response): Promise<Response | undefined>;
+  getTrocaRepetidas(req: Request, res: Response): Promise<Response | undefined>;
 }

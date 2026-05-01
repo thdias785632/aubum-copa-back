@@ -1,5 +1,6 @@
 import { UserStickersRepositoryInterface } from '../../../../app/@shared/user-stickers/repository/user-stickers-repository.interface';
 import {
+  TrocaUserDto,
   UserStickerDto,
   UserStickerWithInfoDto,
 } from '../../../../domain/user-stickers/dto/user-sticker.dto';
@@ -114,6 +115,33 @@ export class UserStickersRepository implements UserStickersRepositoryInterface {
     ]);
 
     await client.end();
+  }
+
+  async findAllUsersWithRepetidas(): Promise<TrocaUserDto[]> {
+    const client = this.database.connect();
+    await client.connect();
+
+    const { rows } = await client.query(
+      `
+      SELECT
+        u.id AS user_id,
+        u.name AS user_name,
+        COALESCE(SUM(us.quantity - 1), 0)::int AS repetidas_count
+      FROM users u
+      INNER JOIN aubum_user_stickers us ON us.user_id = u.id
+      WHERE us.quantity > 1
+      GROUP BY u.id, u.name
+      ORDER BY repetidas_count DESC
+      `,
+    );
+
+    await client.end();
+
+    return rows.map((row: any) => ({
+      userId: row.user_id,
+      userName: row.user_name,
+      repetidasCount: row.repetidas_count,
+    }));
   }
 }
 
