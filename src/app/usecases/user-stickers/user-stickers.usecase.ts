@@ -7,6 +7,7 @@ import {
   AlbumSectionDto,
   AlbumStickerDto,
   AlbumSummaryDto,
+  TrocaUserDto,
   UserStickerWithInfoDto,
 } from '../../../domain/user-stickers/dto/user-sticker.dto';
 
@@ -179,5 +180,16 @@ export class UserStickersUseCase implements UserStickersUseCaseInterface {
 
   async reset(userId: string): Promise<void> {
     await this.userStickersRepository.resetByUserId(userId);
+  }
+
+  async getTrocaUsers(): Promise<TrocaUserDto[]> {
+    return this.userStickersRepository.findAllUsersWithRepetidas();
+  }
+
+  async getTrocaRepetidas(userId: string): Promise<UserStickerWithInfoDto[]> {
+    const all = await this.userStickersRepository.findByUserId(userId);
+    return all
+      .filter((item) => item.quantity > 1)
+      .sort((a, b) => a.position - b.position);
   }
 }

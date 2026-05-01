@@ -47,4 +47,20 @@ userStickersRoute.delete(
   },
 );
 
+userStickersRoute.get(
+  '/troca/users',
+  async (request: Request, response: Response) => {
+    const controller = new UserStickersController(useCase);
+    await controller.getTrocaUsers(request, response);
+  },
+);
+
+userStickersRoute.get(
+  '/troca/repetidas/:userId',
+  async (request: Request, response: Response) => {
+    const controller = new UserStickersController(useCase);
+    await controller.getTrocaRepetidas(request, response);
+  },
+);
+
 export default userStickersRoute;

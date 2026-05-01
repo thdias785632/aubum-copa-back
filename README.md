@@ -88,6 +88,8 @@ npm run build && npm run start:prod
 | POST | /api/aubum/increment | `{ userId, stickerId }` - marca +1 (1ª vez = tenho, demais = repetidas) |
 | POST | /api/aubum/decrement | `{ userId, stickerId }` - reduz 1 (repetida ou do album) |
 | GET  | /api/aubum/repetidas/:userId | Figurinhas repetidas (quantity > 1) |
+| GET  | /api/aubum/troca/users | Lista usuarios com repetidas (nome + total de repetidas) |
+| GET  | /api/aubum/troca/repetidas/:userId | Figurinhas repetidas de um usuario especifico (para troca) |
 | DELETE | /api/aubum/reset/:userId | Reseta progresso do usuario |
 
 ## Regra de negocio principal
